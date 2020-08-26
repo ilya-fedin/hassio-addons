@@ -1,0 +1,35 @@
+#!/usr/bin/with-contenv bashio
+
+declare telegram_proxy
+declare telegram_token
+declare telegram_master
+declare telegram_webui_password
+declare -a options
+
+bashio::net.wait_for 8112 localhost 120
+
+bashio::log.info "Starting Deluge Telegram Bot..."
+
+telegram_proxy=$(bashio::config 'telegram_proxy')
+telegram_token=$(bashio::config 'telegram_token')
+telegram_master=$(bashio::config 'telegram_master')
+telegram_webui_password=$(bashio::config 'telegram_webui_password')
+
+if bashio::config.has_value 'telegram_proxy'; then
+	export HTTP_PROXY="${telegram_proxy}"
+	export HTTPS_PROXY="${telegram_proxy}"
+fi
+
+if bashio::config.has_value 'telegram_token'; then
+	options+=(-token "${telegram_token}")
+fi
+
+if bashio::config.has_value 'telegram_master'; then
+	options+=(-master "${telegram_master}")
+fi
+
+if bashio::config.has_value 'telegram_webui_password'; then
+	options+=(-password "${telegram_webui_password}")
+fi
+
+exec deluge-telegram "${options[@]}"

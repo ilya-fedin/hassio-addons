@@ -1,0 +1,38 @@
+#!/usr/bin/with-contenv bashio
+
+declare deluge_uid
+declare deluge_gid
+declare deluged_port
+declare uidgid
+declare -a options
+
+bashio::log.info "Starting Deluge Daemon..."
+
+deluge_uid=$(bashio::config 'deluge_uid')
+deluge_gid=$(bashio::config 'deluge_gid')
+deluged_port=$(bashio::config 'deluged_port')
+
+if bashio::config.has_value 'deluge_uid'; then
+	uidgid=${deluge_uid}
+fi
+
+if bashio::config.has_value 'deluge_gid'; then
+	uidgid+=:${deluge_gid}
+fi
+
+options+=(-d)
+options+=(-c /data/deluge)
+
+if bashio::config.has_value 'deluged_port'; then
+	options+=(-p "${deluged_port}")
+fi
+
+if bashio::debug; then
+	options+=(-L debug)
+fi
+
+if bashio::config.has_value 'deluge_uid' || bashio::config.has_value 'deluge_gid'; then
+	exec su-exec "${uidgid}" deluged "${options[@]}"
+else
+	exec deluged "${options[@]}"
+fi

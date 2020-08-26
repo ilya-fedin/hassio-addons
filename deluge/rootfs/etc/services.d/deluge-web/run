@@ -1,0 +1,43 @@
+#!/usr/bin/with-contenv bashio
+
+declare deluge_uid
+declare deluge_gid
+declare deluged_port
+declare base_url
+declare uidgid
+declare -a options
+
+deluged_port=$(bashio::config 'deluged_port')
+
+bashio::net.wait_for "${deluged_port}"
+
+bashio::log.info "Starting Deluge Web Interface..."
+
+deluge_uid=$(bashio::config 'deluge_uid')
+deluge_gid=$(bashio::config 'deluge_gid')
+base_url=$(bashio::addon.ingress_url)
+
+if bashio::config.has_value 'deluge_uid'; then
+	uidgid=${deluge_uid}
+fi
+
+if bashio::config.has_value 'deluge_gid'; then
+	uidgid+=:${deluge_gid}
+fi
+
+options+=(-d)
+options+=(-c /data/deluge)
+options+=(-i 127.0.0.1)
+options+=(-p 8112)
+options+=(-b "${base_url}")
+options+=(--no-ssl)
+
+if bashio::debug; then
+	options+=(-L debug)
+fi
+
+if bashio::config.has_value 'deluge_uid' || bashio::config.has_value 'deluge_gid'; then
+	exec su-exec "${uidgid}" deluge-web "${options[@]}"
+else
+	exec deluge-web "${options[@]}"
+fi
