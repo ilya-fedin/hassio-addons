@@ -1,0 +1,6 @@
+#!/usr/bin/with-contenv bashio
+
+bashio::log.info "Starting Monitorrent..."
+
+cd /opt/monitorrent
+exec python3 server.py --ip 127.0.0.1 --db-path /data/monitorrent.db
