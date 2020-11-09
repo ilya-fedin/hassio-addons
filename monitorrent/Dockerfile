@@ -9,6 +9,7 @@ SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 RUN \
     apk add --no-cache \
         python3 \
+        py3-pip \
         lua-resty-http \
         nginx-mod-http-lua \
         nginx
