@@ -10,28 +10,20 @@
   "panel_icon": "mdi:water",
   "startup": "services",
   "homeassistant": "0.92.0b2",
-  "arch": [
-    "aarch64",
-    "amd64",
-    "armhf",
-    "armv7",
-    "i386"
-  ],
+  "init": false,
+  "arch": ["aarch64", "amd64", "armhf", "armv7", "i386"],
   "ports": {
     "80/tcp": null
   },
   "ports_description": {
-    "80/tcp": "Web interface (Not required for Hass.io Ingress)"
+    "80/tcp": "Web interface (Not required for Ingress)"
   },
   "boot": "auto",
   "hassio_api": true,
   "hassio_role": "default",
   "auth_api": true,
   "host_network": true,
-  "map": [
-    "ssl",
-    "share:rw"
-  ],
+  "map": ["ssl", "share:rw"],
   "options": {
     "deluge_uid": 1000,
     "deluge_gid": 1000,
@@ -44,14 +36,14 @@
     "keyfile": "privkey.pem"
   },
   "schema": {
-    "log_level": "match(^(trace|debug|info|notice|warning|error|fatal)$)?",
+    "log_level": "list(trace|debug|info|notice|warning|error|fatal)?",
     "deluge_uid": "int?",
     "deluge_gid": "int?",
     "deluged_port": "int",
     "telegram_proxy": "str?",
     "telegram_token": "str",
     "telegram_master": "str",
-    "telegram_webui_password": "str",
+    "telegram_webui_password": "password",
     "ssl": "bool",
     "certfile": "str",
     "keyfile": "str",

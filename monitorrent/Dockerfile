@@ -1,4 +1,4 @@
-ARG BUILD_FROM=hassioaddons/base:4.1.1
+ARG BUILD_FROM=hassioaddons/base:8.0.5
 # hadolint ignore=DL3006
 FROM ${BUILD_FROM}
 
@@ -43,12 +43,14 @@ LABEL \
     io.hass.type="addon" \
     io.hass.version=${BUILD_VERSION} \
     maintainer="" \
-    org.label-schema.description="Automatic torrents downloader" \
-    org.label-schema.build-date=${BUILD_DATE} \
-    org.label-schema.name="Monitorrent" \
-    org.label-schema.schema-version="1.0" \
-    org.label-schema.url="" \
-    org.label-schema.usage="" \
-    org.label-schema.vcs-ref=${BUILD_REF} \
-    org.label-schema.vcs-url="" \
-    org.label-schema.vendor=""
+    org.opencontainers.image.title="Monitorrent" \
+    org.opencontainers.image.description="Automatic torrents downloader" \
+    org.opencontainers.image.vendor="ilya-fedin's Hass.io addons" \
+    org.opencontainers.image.authors="Ilya Fedin <fedin-ilja2010@ya.ru>" \
+    org.opencontainers.image.licenses="MIT" \
+    org.opencontainers.image.url="https://github.com/ilya-fedin/hassio-addons" \
+    org.opencontainers.image.source="https://github.com/ilya-fedin/hassio-addons" \
+    org.opencontainers.image.documentation="https://github.com/ilya-fedin/hassio-addons" \
+    org.opencontainers.image.created=${BUILD_DATE} \
+    org.opencontainers.image.revision=${BUILD_REF} \
+    org.opencontainers.image.version=${BUILD_VERSION}
